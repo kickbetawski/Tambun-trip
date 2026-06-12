@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trip Tambun Waterpark — 15/7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#0E4F4F;
+    --teal-light:#15706F;
+    --yellow:#F4B400;
+    --foam:#F7F9F8;
+    --coral:#FF6B4A;
+    --slate:#1C2B2B;
+    --line:#D8E3E1;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--foam);
+    color:var(--slate);
+    padding-bottom:60px;
+  }
+  header{
+    background:linear-gradient(160deg,var(--teal) 0%, var(--teal-light) 60%, #1C8C8A 100%);
+    color:var(--foam);
+    padding:36px 20px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    bottom:-1px;left:0;right:0;height:24px;
+    background:var(--foam);
+    border-radius:50% 50% 0 0 / 100% 100% 0 0;
+    transform:scaleX(1.3);
+  }
+  header h1{
+    font-family:'Fraunces',serif;
+    font-size:clamp(28px,6vw,42px);
+    font-weight:700;
+    line-height:1.1;
+  }
+  header p.sub{
+    margin-top:8px;
+    font-size:14px;
+    opacity:0.85;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  /* Tide-line progress bar */
+  .tide-wrap{
+    margin:18px 0 6px;
+    background:rgba(255,255,255,0.18);
+    border-radius:999px;
+    height:10px;
+    overflow:hidden;
+    position:relative;
+  }
+  .tide-fill{
+    height:100%;
+    width:0%;
+    background:var(--yellow);
+    border-radius:999px;
+    transition:width 0.4s ease;
+  }
+  .tide-label{
+    font-size:13px;
+    margin-top:8px;
+    opacity:0.9;
+  }
+
+  main{max-width:680px;margin:0 auto;padding:0 16px;}
+
+  .day{
+    margin-top:28px;
+  }
+  .day-title{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    font-weight:600;
+    color:var(--teal);
+    margin-bottom:4px;
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  .day-title .date{
+    font-size:13px;
+    font-weight:500;
+    color:#7A8C8A;
+    font-family:'Inter',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+  }
+
+  .car-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:12px;
+    margin-top:10px;
+  }
+  .car-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px;
+  }
+  .car-title{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--coral);
+    margin-bottom:8px;
+  }
+  .car-card ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+  .car-card li{
+    font-size:14px;
+    color:var(--slate);
+  }
+
+  .item.tbd{
+    background:#FFF8E8;
+    border-radius:10px;
+    border:1px dashed var(--yellow);
+    padding-left:10px;
+    padding-right:10px;
+  }
+  .item.tbd .item-time{color:#B58A00;}
+
+  .item{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding:14px 4px;
+    border-bottom:1px solid var(--line);
+  }
+  .item:last-child{border-bottom:none;}
+
+  .checkbox{
+    flex:0 0 24px;
+    width:24px;height:24px;
+    border:2px solid var(--teal);
+    border-radius:7px;
+    cursor:pointer;
+    position:relative;
+    margin-top:2px;
+    transition:background 0.2s, border-color 0.2s;
+    background:transparent;
+  }
+  .checkbox.checked{
+    background:var(--teal);
+    border-color:var(--teal);
+  }
+  .checkbox.checked::after{
+    content:"";
+    position:absolute;
+    left:6px;top:2px;
+    width:6px;height:11px;
+    border:solid var(--foam);
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg);
+  }
+
+  .item-body{flex:1;min-width:0;}
+  .item-time{
+    font-size:12px;
+    font-weight:700;
+    color:var(--coral);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:2px;
+  }
+  .item-title{
+    font-size:16px;
+    font-weight:600;
+    color:var(--slate);
+    transition:color 0.2s, text-decoration 0.2s;
+  }
+  .item.done .item-title{
+    color:#9AABA8;
+    text-decoration:line-through;
+  }
+  .item-note{
+    font-size:13px;
+    color:#5C7270;
+    margin-top:3px;
+    line-height:1.4;
+  }
+
+  .timer-chip{
+    margin-top:8px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:#EAF3F2;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px 12px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--teal);
+  }
+  .timer-chip button{
+    border:none;
+    background:var(--teal);
+    color:var(--foam);
+    border-radius:999px;
+    padding:4px 10px;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .timer-chip button:disabled{
+    background:#B9CBC9;
+    cursor:default;
+  }
+  .timer-chip.running{
+    background:#FFF1EC;
+    border-color:#FFD2C4;
+    color:var(--coral);
+  }
+  .timer-chip.running button{
+    background:var(--coral);
+  }
+  .timer-chip.done-timer{
+    background:#E9F7EE;
+    border-color:#C9EBD3;
+    color:#1F8A4C;
+  }
+
+  footer{
+    text-align:center;
+    padding:24px 16px;
+    font-size:12px;
+    color:#8FA3A1;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="sub">Trip Schedule</p>
+  <h1>Tambun Waterpark — 2D1N</h1>
+  <div class="tide-wrap"><div class="tide-fill" id="tideFill"></div></div>
+  <p class="tide-label" id="tideLabel">0 / 0 selesai</p>
+</header>
+
+<main>
+
+  <div class="day" id="cars">
+    <div class="day-title">Susunan Kereta</div>
+    <div class="car-grid">
+      <div class="car-card">
+        <div class="car-title">Kereta 1</div>
+        <ul>
+          <li>Effa</li>
+          <li>Niesa</li>
+          <li>Zarifah</li>
+          <li>Widad</li>
+        </ul>
+      </div>
+      <div class="car-card">
+        <div class="car-title">Kereta 2</div>
+        <ul>
+          <li>Daniel</li>
+          <li>Radin</li>
+          <li>Ainna</li>
+          <li>Fishya</li>
+          <li>Mimi</li>
+        </ul>
+      </div>
+      <div class="car-card">
+        <div class="car-title">Kereta 3</div>
+        <ul>
+          <li>Iqbal</li>
+          <li>Amzar</li>
+          <li>Zahraa'</li>
+          <li>Liyana</li>
+          <li>Ezrien</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="day" id="day1">
+    <div class="day-title">Hari 1 <span class="date">15 Julai (Rabu)</span></div>
+
+    <div class="item" data-id="d1-1">
+      <div class="checkbox" onclick="toggleItem(this)"></div>
+      <div class="item-body">
+        <div class="item-time">8:00 – 8:30 AM</div>
+        <div class="item-title">Gerak dari UiTM ke Tambun</div>
+        <div class="item-note">Semua kereta gerak dalam tempoh ni.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="d1-2">
+      <div class="checkbox" onclick="toggleItem(this)"></div>
+      <div class="item-body">
+        <div class="item-time">10:30 – 11:00 AM</div>
+        <div class="item-title">Sampai Tambun!</div>
+        <div class="item-note">Anggaran 2–2.5 jam perjalanan.</div>
+      </div>
+    </div>
+
+    <div class="item tbd" data-id="d1-3">
+      <div class="checkbox" onclick="toggleItem(this)"></div>
+      <div class="item-body">
+        <div class="item-time">11:00 AM – ?</div>
+        <div class="item-title">TBD — sambung jadual</div>
+        <div class="item-note">Belum confirm. Edit slot ni dalam VS Code bila dah ada plan (check-in, lunch, waterpark, dll).</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="day" id="day2">
+    <div class="day-title">Hari 2 <span class="date">16 Julai (Khamis)</span></div>
+
+    <div class="item" data-id="d2-1">
+      <div class="checkbox" onclick="toggleItem(this)"></div>
+      <div class="item-body">
+        <div class="item-time">7:30 AM</div>
+        <div class="item-title">Bangun & breakfast</div>
+        <div class="item-note">Di hotel atau kedai berdekatan.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="d2-2">
+      <div class="checkbox" onclick="toggleItem(this)"></div>
+      <div class="item-body">
+        <div class="item-time">9:00 AM</div>
+        <div class="item-title">Pack barang & check-out hotel</div>
+        <div class="item-note">Letak luggage di kereta dulu.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="d2-3">
+      <div class="checkbox" onclick="toggleItem(this)"></div>
+      <div class="item-body">
+        <div class="item-time">10:00 AM</div>
+        <div class="item-title">Sesi waterpark pagi (round 2)</div>
+        <div class="item-note">Kalau still ada tenaga / nak puas-puaskan main.</div>
+        <div class="timer-chip" data-duration="7200">
+          <span class="chip-label">Sesi 2 jam</span>
+          <button onclick="startTimer(this)">Start</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="d2-4">
+      <div class="checkbox" onclick="toggleItem(this)"></div>
+      <div class="item-body">
+        <div class="item-time">12:30 PM</div>
+        <div class="item-title">Mandi & tukar baju</div>
+        <div class="item-note">Bersihkan diri sebelum balik.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="d2-5">
+      <div class="checkbox" onclick="toggleItem(this)"></div>
+      <div class="item-body">
+        <div class="item-time">1:30 PM</div>
+        <div class="item-title">Lunch sebelum balik</div>
+        <div class="item-note">Cuba makanan famous Ipoh — tauge ayam, kuetiau, dll.</div>
+      </div>
+    </div>
+
+    <div class="item" data-id="d2-6">
+      <div class="checkbox" onclick="toggleItem(this)"></div>
+      <div class="item-body">
+        <div class="item-time">3:00 PM</div>
+        <div class="item-title">Bertolak balik</div>
+        <div class="item-note">Selamat jalan! 🚗</div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>Tap checklist untuk tandakan selesai • Tap Start untuk mulakan timer sesi</footer>
+
+<script>
+  const allItems = () => document.querySelectorAll('.item');
+
+  function updateTide(){
+    const items = allItems();
+    const total = items.length;
+    let done = 0;
+    items.forEach(it=>{ if(it.classList.contains('done')) done++; });
+    const pct = total ? (done/total*100) : 0;
+    document.getElementById('tideFill').style.width = pct + '%';
+    document.getElementById('tideLabel').textContent = `${done} / ${total} selesai`;
+  }
+
+  function toggleItem(checkboxEl){
+    const item = checkboxEl.closest('.item');
+    checkboxEl.classList.toggle('checked');
+    item.classList.toggle('done');
+    updateTide();
+  }
+
+  function formatTime(sec){
+    const h = Math.floor(sec/3600);
+    const m = Math.floor((sec%3600)/60);
+    const s = sec%60;
+    if(h>0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    return `${m}:${String(s).padStart(2,'0')}`;
+  }
+
+  function startTimer(btn){
+    const chip = btn.closest('.timer-chip');
+    if(chip.dataset.running === '1') return;
+    chip.dataset.running = '1';
+    chip.classList.add('running');
+    let remaining = parseInt(chip.dataset.duration, 10);
+    const label = chip.querySelector('.chip-label');
+    btn.disabled = true;
+    btn.textContent = 'Running';
+
+    const interval = setInterval(()=>{
+      remaining--;
+      label.textContent = formatTime(remaining);
+      if(remaining <= 0){
+        clearInterval(interval);
+        label.textContent = 'Selesai!';
+        chip.classList.remove('running');
+        chip.classList.add('done-timer');
+        btn.textContent = 'Done';
+      }
+    },1000);
+  }
+
+  updateTide();
+</script>
+
+</body>
+</html>
